@@ -30,10 +30,10 @@ const Navbar = () => {
 }
     return (<>
 
-        <div className="bg-gradient-to-l from-green-950 via-lime-800 to-teal-700 text-white flex md:flex justify-between items-center max-lg:flex-col font-bold p-4  h-16 w-full ">
-            <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-rose-800 to-sky-300 text-3xl font-bold cursor-pointer  mono">
+        <div className="bg-gradient-to-l from-green-950 via-green-400 to-teal-700 text-white flex md:flex justify-between items-center max-lg:flex-col font-bold p-4  h-16 w-full ">
+            <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 from-0% via-slate-50 via-40%  to-85% to-green-950 text-3xl font-bold cursor-pointer  mono">
                 TamilVazhi</h1>
-            <ul className="flex font-bold font-mono lg:text-2xl left-3/2 space-x-28">
+            <ul className="flex font-bold text-green-950 font-mono lg:text-2xl left-3/2 space-x-28">
                 <li className="p-4">
                     <Link to="/">Home</Link>
                 </li>
@@ -43,7 +43,7 @@ const Navbar = () => {
                 <li className="p-4 ">
                     <Link to="/dropdown"></Link>
                     <div className="dropdown">
-      <button onMouseEnter={toggleDropdown} className="">
+      <button onClick={toggleDropdown} className="">
         Careers
       </button>
       {isOpen && (
@@ -63,7 +63,7 @@ const Navbar = () => {
                 </li>              
             </ul>
             <div>
-                <button className="bg-gradient-to-r from-pink-300 via-rose-800 to-sky-500 text-white items-center leading-4 px-4 py-2 lg:text-xl rounded-2xl">
+                <button className="bg-gradient-to-r from-orange-600 via-white to-green-950 text-blue-950 items-center leading-4 px-4 py-2 lg:text-xl rounded-2xl">
                     <Link to="/login">Login</Link>
                 </button>
             </div>

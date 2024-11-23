@@ -1,14 +1,19 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";  
 
 const Home = () => {
     return (
+        <>
         <div>
-            <Navbar />
-            <Footer/>
+            <Navbar/>
+        <Footer/>
         </div>
+        <div>
+        
+        </div>
+        </>
     );
 };
 

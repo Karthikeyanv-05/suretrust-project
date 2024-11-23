@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Body from "../components/Body";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";  
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
         <>
         <div>
             <Navbar/>
+            <Body/>
         <Footer/>
         </div>
         <div>

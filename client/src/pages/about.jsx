@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 const About = () => {
     return (
         <>
-          <div className="bg-gray-50 py-5 sm:py-16 lg:py-24 bg-gradient-to-br from-orange-800 via-white to-green-700 ">
+        <Navbar/>
+          <div className=" py-5 sm:py-16 lg:py-24 bg-gradient-to-br from-orange-600 via-white to-green-900 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center relative top-0">
           <h2 className="top-5 text-4xl font-extrabold font-mono tracking-wide uppercase">
@@ -65,6 +68,7 @@ const About = () => {
         </div>
       </div>
     </div>
+    <Footer />
   </>
   );
 };

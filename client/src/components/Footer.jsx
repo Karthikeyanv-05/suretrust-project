@@ -34,8 +34,8 @@ const Footer = () => {
            </div>
                  
             </footer>
-            <div className="flex space-x-4 h-fit w-fit auto right-5 bottom-0">
-           <p className=" bg-white text-sm text-black ">Copyright © 2024-2025 Suretrust. All rights reserved.</p>
+            <div className="flex space-x-4 h-fit w-full auto right-5 bottom-0">
+           <p className=" bg-gray-400 w-full text-sm text-black ">Copyright © 2024-2025 Suretrust. All rights reserved.</p>
             </div> 
           </>     
     );

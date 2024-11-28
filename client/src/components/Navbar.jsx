@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const Navbar = () => {
     const [isMainOpen, setMainOpen] = useState(false);
@@ -27,8 +29,8 @@ const Navbar = () => {
             case "suretrust":
                 navigate("/suretrust");
                 break;
-            case "nsdc":
-                navigate("/nsdc");
+            case "tnsdc":
+                navigate("/tnsdc");
                 break;
             case "pmkvy":
                 navigate("/pmkvy");
@@ -82,7 +84,7 @@ const Navbar = () => {
                                     onMouseOver={() => setSubOpen(!isSubOpen)} 
                                     className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md flex justify-between items-center"
                                 >
-                                    NSDC/PMKVY
+                                    TNSDC/PMKVY
                                     <svg 
                                         className={`h-4 w-4 transition-transform duration-300 ${isSubOpen ? 'transform rotate-90' : ''}`}
                                         xmlns="http://www.w3.org/2000/svg" 
@@ -102,7 +104,7 @@ const Navbar = () => {
                                 {isSubOpen && (
                                     <div className="pl-4 mt-2 space-y-2">
                                         <ul className="space-y-2">
-                                            <li onClick={() => handleOptionClick("nsdc")} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">NSDC</li>
+                                            <li onClick={() => handleOptionClick("tnsdc")} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">TNSDC</li>
                                             <li onClick={() => handleOptionClick("pmkvy")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">PMKVY</li>
                                         </ul>
                                     </div>

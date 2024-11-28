@@ -44,9 +44,9 @@ const Navbar = () => {
                 TamilVazhi
             </h1>
 
-            {/* Navbar Links */}
+            {/* Navbar */}
             <ul className="flex font-bold space-x-24 lg:text-xl">
-                {/* Home Link */}
+                {/* Home */}
                 <li className="hover:text-black transition duration-300">
                     <Link to="/">Home</Link>
                 </li>
@@ -54,7 +54,7 @@ const Navbar = () => {
                 {/* Education Dropdown */}
                 <li className="relative group">
                     <button 
-                        onClick={() => setMainOpen(!isMainOpen)} 
+                        onMouseOver={() => setMainOpen(!isMainOpen)} 
                         className="hover:text-black flex items-center space-x-2"
                     >
                         <span>Education</span>
@@ -79,7 +79,7 @@ const Navbar = () => {
                             <ul className="space-y-2">
                                 <li onClick={() => handleOptionClick("suretrust")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">SureTrust</li>
                                 <li 
-                                    onClick={() => setSubOpen(!isSubOpen)} 
+                                    onMouseOver={() => setSubOpen(!isSubOpen)} 
                                     className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md flex justify-between items-center"
                                 >
                                     NSDC/PMKVY
@@ -115,7 +115,7 @@ const Navbar = () => {
                 {/* Careers Dropdown */}
                 <li className="relative group">
                     <button 
-                        onClick={() => setDropdownOpen(!isDropdownOpen)} 
+                        onMouseOver={() => setDropdownOpen(!isDropdownOpen)} 
                         className="hover:text-black flex items-center space-x-2"
                     >
                         <span>Careers</span>

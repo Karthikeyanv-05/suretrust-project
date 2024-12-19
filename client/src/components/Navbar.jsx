@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import authenticate from "./Auth";
+
 
 const Navbar = () => {
     const [isMainOpen, setMainOpen] = useState(false);
@@ -11,8 +13,8 @@ const Navbar = () => {
 
     const handleOptionClick = (option) => {
         switch (option) {
-            case "defense":
-                navigate("/defense");
+            case "defence":
+                navigate("/defence");
                 break;
             case "tnpsc":
                 navigate("/tnpsc");
@@ -41,6 +43,7 @@ const Navbar = () => {
     };
 
     return (
+        <nav>
         <div className=" w-full bg-gradient-to-l from-green-950 via-green-400 to-teal-700 text-white p-4 flex items-center justify-between shadow-md sticky top-0 z-50">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 via-slate-50 to-green-950 text-3xl font-bold cursor-pointer">
                 TamilVazhi
@@ -104,7 +107,7 @@ const Navbar = () => {
                                 {isSubOpen && (
                                     <div className="pl-4 mt-2 space-y-2">
                                         <ul className="space-y-2">
-                                            <li onClick={() => handleOptionClick("tnsdc")} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">TNSDC</li>
+                                            <li onClick={()=>{handleOptionClick("tnsdc")}} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">TNSDC</li>
                                             <li onClick={() => handleOptionClick("pmkvy")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">PMKVY</li>
                                         </ul>
                                     </div>
@@ -140,7 +143,7 @@ const Navbar = () => {
                     {isDropdownOpen && (
                         <div className="absolute left-0 mt-3 w-56  bg-green-950 shadow-lg rounded-lg p-2 space-y-2">
                             <ul className=" space-y-2 bg-green-950">
-                                <li onClick={() => handleOptionClick("defense")} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">DEFENCE</li>
+                                <li onClick={()=> handleOptionClick("defence")} className="p-2  bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">DEFENCE</li>
                                 <li onClick={() => handleOptionClick("tnpsc")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">TNPSC</li>
                                 <li onClick={() => handleOptionClick("upsc")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">UPSC</li>
                                 <li onClick={() => handleOptionClick("ssc")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">SSC</li>
@@ -157,12 +160,12 @@ const Navbar = () => {
             </ul>
 
             {/* Login Button */}
-            <div>
-                <button className="bg-gradient-to-r from-orange-600 via-white to-green-950 text-blue-950 px-4 py-2 rounded-full hover:scale-110 hover:text-green-950">
-                    <Link to="/login">Login</Link>
+            <div className="relative">
+                <button className="bg-gradient-to-r from-orange-600 via-white to-green-950 text-blue-950 px-4 py-2 rounded-full hover:scale-110 hover:text-green-950" >                               <Link to='/login'>Login</Link>
                 </button>
             </div>
         </div>
+    </nav>
     );
 };
 

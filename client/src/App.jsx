@@ -5,13 +5,15 @@ import About from "./pages/about"
 import PrivacyPolicy from "./pages/privacy"
 import TermsConditions from "./components/terms"
 import Register from "./components/register"
-import Login from "./components/login"
+import Login from "./components/login.jsx"
 import Authenticate from "./components/Auth"
 import Tnpsc from "./pages/tnpsc"
 import UPSCPage from "./pages/upsc"
 import  SSCPage from "./pages/ssc"
 import RRB from "./pages/rrb"
 import DefenceRecruitmentPage from "./pages/defence"
+import TNSDCPage from "./pages/tnsdc.jsx"
+import PMKVYPage from "./pages/pmkvy.jsx"
 export default function App() {
   return (
      <>
@@ -30,6 +32,9 @@ export default function App() {
             <Route path="/upsc" element={<UPSCPage/>}/>
             <Route path="/ssc" element={<SSCPage/>}/>
             <Route path="/defence" element={<DefenceRecruitmentPage/>}/> 
+            <Route path="tnsdc" element={<TNSDCPage/>}/>
+            <Route path="pmkvy" element={<PMKVYPage/>}/>
+
           </Routes>
           </switch>
           

@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 function UPSCPage() {
   return (
@@ -6,7 +7,8 @@ function UPSCPage() {
       {/* Page Wrapper */}
       <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
         {/* Hero Section */}
-        <header className="relative bg-cover bg-center h-[700px] flex flex-col justify-center bg-[url('./imge/upsc-bg.webp')]">
+        <Navbar />
+        <header className="relative bg-cover bg-center h-[700px] flex flex-col justify-center bg-[url('./images/upsc.jpg')]">
           <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           <div className="relative z-10 text-center text-white">
             <h1 className="text-6xl font-extrabold drop-shadow-lg">

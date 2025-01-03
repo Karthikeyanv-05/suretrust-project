@@ -1,51 +1,12 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 function RRB() {
   return (
     <div className="bg-gray-50 text-gray-800 font-sans">
-      {/* Navbar */}
-      <nav className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-          <div className="text-2xl font-bold">Railway Careers</div>
-          <ul className="flex space-x-6 text-sm md:text-base">
-            <li>
-              <a
-                href="#about"
-                className="hover:text-yellow-400 transition-colors"
-              >
-                About RRB
-              </a>
-            </li>
-            <li>
-              <a
-                href="#categories"
-                className="hover:text-yellow-400 transition-colors"
-              >
-                Job Categories
-              </a>
-            </li>
-            <li>
-              <a
-                href="#process"
-                className="hover:text-yellow-400 transition-colors"
-              >
-                Selection Process
-              </a>
-            </li>
-            <li>
-              <a
-                href="#links"
-                className="hover:text-yellow-400 transition-colors"
-              >
-                Official Links
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
+      <Navbar />
       {/* Hero Section */}
-      <header className="relative bg-cover bg-center h-screen flex items-center justify-center bg-[url('./images/rrb-hero.jpg')]">
+      <header className="relative bg-cover bg-center h-screen flex items-center justify-center bg-[url('./images/rrb.jpg')]">
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
         <div className="text-center text-white z-10 px-4">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-wide">

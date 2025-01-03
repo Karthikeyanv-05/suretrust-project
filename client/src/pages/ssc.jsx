@@ -1,9 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 function SSCPage() {
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
+      <Navbar />
       <header className="relative bg-cover bg-center h-[700px] flex flex-col justify-center bg-[url('./images/ssc-bg.jpg')]">
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 text-center text-white">
@@ -77,7 +79,7 @@ function SSCPage() {
           achieve a stable and rewarding career.
         </p>
         <button className="mt-8 px-10 py-4 bg-yellow-500 text-gray-900 text-xl font-bold rounded-full hover:bg-yellow-600 hover:text-white transition duration-300">
-          Apply Now
+         <a href="https://ssc.gov.in/login" >Apply Now</a> 
         </button>
       </section>
 

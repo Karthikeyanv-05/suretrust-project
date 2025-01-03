@@ -1,11 +1,12 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 function DefenceRecruitmentPage() {
   return (
     <div className="bg-gray-50 text-gray-800 font-sans">
       {/* Navbar */}
   
-
+      <Navbar />
       {/* Hero Section */}
       <header className="relative bg-cover bg-center h-screen flex items-center justify-center bg-[url('./images/defence-hero.jpg')]">
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
@@ -60,7 +61,7 @@ function DefenceRecruitmentPage() {
           id="navy"
           className="grid md:grid-cols-2 items-center bg-gray-100 shadow-lg rounded-lg overflow-hidden mb-16"
         >
-          <div className="bg-cover bg-center h-64 md:h-full bg-[url('./images/navy.jpg')]"></div>
+          <div className="bg-cover bg-center h-64 md:h-full bg-[url('./images/navy.png')]"></div>
           <div className="p-6 md:p-12">
             <h3 className="text-3xl font-bold text-blue-600 mb-4">
               Indian Navy

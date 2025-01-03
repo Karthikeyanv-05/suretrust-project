@@ -1,11 +1,13 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 function Tnpsc() {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300">
         {/* Header Section */}
-        <header className="relative bg-cover bg-center h-[600px] text-center flex flex-col justify-center bg-[url('./imge/TNPSC.PNG.WEBP')]">
+        <Navbar />
+        <header className="relative bg-cover bg-center h-[600px] text-center flex flex-col justify-center bg-[url('./images/tnpsc.jpg')]">
           <div className="bg-black bg-opacity-50 h-full w-full absolute top-0 left-0"></div>
           <h1 className="relative z-10 text-6xl font-extrabold text-white drop-shadow-lg">
             TNPSC Recruitment Services

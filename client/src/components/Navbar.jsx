@@ -4,7 +4,6 @@ import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import authenticate from "./Auth";
 
-
 const Navbar = () => {
     const [isMainOpen, setMainOpen] = useState(false);
     const [isSubOpen, setSubOpen] = useState(false);
@@ -29,7 +28,7 @@ const Navbar = () => {
                 navigate("/rrb");
                 break;
             case "suretrust":
-                navigate("/suretrust");
+               <a href="https://www.suretrustforruralyouth.com/"/>;
                 break;
             case "tnsdc":
                 navigate("/tnsdc");
@@ -46,7 +45,7 @@ const Navbar = () => {
         <nav>
         <div className=" w-full bg-gradient-to-l from-green-950 via-green-400 to-teal-700 text-white p-4 flex items-center justify-between shadow-md sticky top-0 z-50">
             <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-orange-600 via-slate-50 to-green-950 text-3xl font-bold cursor-pointer">
-                TamilVazhi
+               <Link to={"/"} >TamilVazhi </Link> 
             </h1>
 
             {/* Navbar */}
@@ -82,7 +81,7 @@ const Navbar = () => {
                     {isMainOpen && (
                         <div className="absolute left-0 mt-3 w-56 bg-green-900 shadow-lg rounded-lg p-2 space-y-2">
                             <ul className="space-y-2">
-                                <li onClick={() => handleOptionClick("suretrust")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md">SureTrust</li>
+                                <li onClick={() => handleOptionClick("suretrust")} className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md"><a href="https://www.suretrustforruralyouth.com/">SureTrust</a></li>
                                 <li 
                                     onMouseOver={() => setSubOpen(!isSubOpen)} 
                                     className="p-2 bg-green-800 hover:bg-green-950 cursor-pointer rounded-md flex justify-between items-center"
@@ -161,7 +160,7 @@ const Navbar = () => {
 
             {/* Login Button */}
             <div className="relative">
-                <button className="bg-gradient-to-r from-orange-600 via-white to-green-950 text-blue-950 px-4 py-2 rounded-full hover:scale-110 hover:text-green-950" >                               <Link to='/login'>Login</Link>
+                <button className="bg-gradient-to-r from-orange-600 via-white to-green-950 text-blue-950 px-4 py-2 rounded-full hover:scale-110 hover:text-green-950" ><Link to='/login'>Login</Link>
                 </button>
             </div>
         </div>

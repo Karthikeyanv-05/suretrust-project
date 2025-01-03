@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { setUser, clearUser } from "../redux/userSlice"; // Import actions
 import { baseUrl ,CLIENT_ID } from "../utils/baseUrl"; // Your base URL
-import {dotenv} from dotenv;
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -93,7 +92,6 @@ const Login = () => {
   };
 
   return (
-    dotenv.config();
     <>
       <form
         className="form-container font-bold px-96 content-center content-right border-4 relative max-w-fit min-w-fit"

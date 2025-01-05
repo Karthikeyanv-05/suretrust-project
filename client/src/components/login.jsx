@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoginView, setIsLoginView] = useState(true); // Default is login view
+   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,7 +26,6 @@ const Login = () => {
       return toast.error("Please fill in all required fields correctly.");
     }
     
-
     try {
       let response;
       if (isLoginView) {

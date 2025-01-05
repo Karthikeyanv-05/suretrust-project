@@ -14,6 +14,7 @@ import RRB from "./pages/rrb"
 import DefenceRecruitmentPage from "./pages/defence"
 import TNSDCPage from "./pages/tnsdc.jsx"
 import PMKVYPage from "./pages/pmkvy.jsx"
+import Dashboard from "./components/dashboard.jsx"
 export default function App() {
   return (
      <>
@@ -32,8 +33,9 @@ export default function App() {
             <Route path="/upsc" element={<UPSCPage/>}/>
             <Route path="/ssc" element={<SSCPage/>}/>
             <Route path="/defence" element={<DefenceRecruitmentPage/>}/> 
-            <Route path="tnsdc" element={<TNSDCPage/>}/>
-            <Route path="pmkvy" element={<PMKVYPage/>}/>
+            <Route path="/tnsdc" element={<TNSDCPage/>}/>
+            <Route path="/pmkvy" element={<PMKVYPage/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
 
           </Routes>
           </switch>

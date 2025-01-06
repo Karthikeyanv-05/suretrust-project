@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Footer= () => {
+
+const Footer = () => {
   return (
-    <footer className="h-48 bottom-0 w-full bg-gradient-to-r from-green-900 via-green-500 to-teal-600 text-white ">
-      <div className="max-w-7xl mx-auto -mb-5 px-6 space-x-28 py-12 flex flex-col md:flex-row justify-between items-center  space-y-8 md:space-y-0">
+    <footer className="h-auto w-full bg-gradient-to-r from-green-900 via-green-500 to-teal-600 text-white">
+      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
         {/* Newsletter Section */}
         <div className="w-full md:w-1/3">
           <p className="text-xl font-bold mb-4">Subscribe to our Newsletter</p>
@@ -25,8 +26,8 @@ const Footer= () => {
           </form>
         </div>
 
-        {/* Links Section */}
-        <div className="w-full md:w-1/3">
+        {/* Links Section - Centered */}
+        <div className="w-full md:w-1/3 text-center">
           <ul className="space-y-3 text-sm font-semibold">
             <li>
               <Link to="/about" className="transition-colors duration-300">
@@ -92,15 +93,13 @@ const Footer= () => {
         </div>
       </div>
 
-      {/* Footer Bottom */}
-      <div className="mt-0 bg-gray-800 text-center ">
+      <div className="bg-gray-800 text-center py-4">
         <p className="text-sm text-gray-300">
-          Copyright  2024-2025 Suretrust. All rights reserved.
+          Copyright 2024-2025 Suretrust. All rights reserved.
         </p>
       </div>
     </footer>
   );
 };
-
 
 export default Footer;

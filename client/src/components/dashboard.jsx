@@ -1,35 +1,54 @@
-import React, { useState } from 'react';
-import { FaUser, FaGraduationCap, FaBriefcase, FaBell } from 'react-icons/fa';  // Icons
-import { Line } from 'react-chartjs-2';  // Chart for data visualization
+import React, { useState, useEffect } from "react";
+import { FaUser, FaGraduationCap, FaBriefcase, FaBell } from "react-icons/fa";  // Icons
+import { Line } from "react-chartjs-2";  // Chart for data visualization
+import axios from "axios";
 
-// Dummy data for the dashboard
-const userProfile = {
-  name: "Jane Doe",
-  email: "jane.doe@example.com",
-  careerStage: "Intermediate Developer",
-  education: "BSc in Computer Science",
-  profileImage: "https://via.placeholder.com/150",
-};
-
-const data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      label: "Skill Development",
-      data: [65, 59, 80, 81, 56, 55],
-      fill: false,
-      borderColor: "rgba(75, 192, 192, 1)",
-      tension: 0.1,
-    },
-  ],
-};
-
+// Dashboard component
 function Dashboard() {
-  const [notifications] = useState([
-    "New job opportunity in your field!",
-    "Your course completion certificate is ready.",
-    "You have a new message from your mentor.",
-  ]);
+  const [userProfile, setUserProfile] = useState(null);
+  const [careerProgress, setCareerProgress] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetching user data and career progress from backend
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await axios.get("/api/user/profile");
+        const careerData = await axios.get("/api/user/career-progress");
+        const userNotifications = await axios.get("/api/user/notifications");
+
+        // Set data into state
+        setUserProfile(userData.data);
+        setCareerProgress(careerData.data);
+        setNotifications(userNotifications.data);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // If data is still loading, display a loading state
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const data = {
+    labels: careerProgress.map(item => item.month),
+    datasets: [
+      {
+        label: "Skill Development",
+        data: careerProgress.map(item => item.skillLevel),
+        fill: false,
+        borderColor: "rgba(75, 192, 192, 1)",
+        tension: 0.1,
+      },
+    ],
+  };
 
   return (
     <div className="bg-gray-100 h-screen font-sans">

@@ -1,31 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { baseUrl, CLIENT_ID } from "../utils/baseUrl"; // Replace with your API base URL
 
 const Register = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   // Handle Google login success
-  const handleLoginSuccess = (response) => {
-    const token = response.credential;
-    // Call your authentication API to validate and register the user
-    authenticate(token)
-      .then((user) => {
-        // Handle success, navigate or store user info as required
-        console.log("User logged in:", user);
-        navigate("/dashboard"); // Example redirect after successful login
-      })
-      .catch((error) => {
-        console.error("Error during authentication:", error);
+  const handleGoogleLoginSuccess = async (response) => {
+    const credential = response.credential;
+
+    if (!credential) {
+      console.error("Google login response is missing credential.");
+      toast.error("Google login failed. Missing credential.");
+      return;
+    }
+
+    try {
+      // Send Google token to backend for verification
+      const loginResponse = await axios.post(`${baseUrl}/api/auth/google_auth`, {
+        tokenId: credential, // Send the tokenId from Google OAuth
       });
+
+      const { user, token } = loginResponse.data;
+      toast.success("Google login success");
+
+      // Store user and token in local storage
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      toast.error("Google login failed.");
+    }
   };
 
-  // Handle Google login failure
-  const handleLoginFailure = (error) => {
-    console.error("Google Login Failed:", error);
+  // Handle Google login failure (no arguments needed)
+  const handleGoogleLoginFailure = () => {
+    console.error("Google login failed");
+    toast.error("Google login failed.");
   };
 
+  // Handle form submission for registration
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Simple client-side validation
+    if (!email || !password || !confirmPassword || password !== confirmPassword) {
+      return toast.error("Please fill in all required fields correctly.");
+    }
+  
+    try {
+      // Prepare the payload for registration
+      const payload = {
+        email,
+        password,
+        name: email.split('@')[0],  // You can modify this depending on how you want to handle the name
+      };
+  
+      // Send the POST request to register the user
+      const response = await axios.post(`${baseUrl}/api/auth/signup`, payload);
+  
+      const { token, user } = response.data;
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+  
+      toast.success("Registration successful");
+      navigate("/dashboard");  // Redirect to dashboard after successful registration
+    } catch (error) {
+      console.error("Error during registration:", error.response ? error.response.data : error.message);
+      toast.error(error.response?.data?.error || "Registration failed. Please try again.");
+    }
+  };
   // Handle Cancel button click - Redirect to home page
   const handleCancel = () => {
     navigate("/"); // Redirect to home page
@@ -33,8 +88,11 @@ const Register = () => {
 
   return (
     <>
-      <form className="form-container font-bold px-96 content-center content-right border-4 relative max-w-fit min-w-fit">
-        <GoogleOAuthProvider clientId="313147226697-hi3adcln0roh30fce4f1g3mfgb9v09s8.apps.googleusercontent.com">
+      <form
+        className="form-container font-bold px-96 content-center content-right border-4 relative max-w-fit min-w-fit"
+        onSubmit={handleSubmit}
+      >
+        <GoogleOAuthProvider clientId={CLIENT_ID || ""}>
           <div className="form-inner mt-3 bg-white p-10 space-y-2 space-x-10 items-center text-center border-4 border-l shadow-2xl rounded-lg max-w-fit min-w-fit">
             <h1 className="text-6xl text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-900">
               Register Here
@@ -46,6 +104,8 @@ const Register = () => {
                 type="text"
                 className="text-lg p-3 w-96 border-4"
                 placeholder="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
               />
             </div>
@@ -55,6 +115,8 @@ const Register = () => {
                 type="text"
                 className="text-lg p-3 w-96 border-4"
                 placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 required
               />
             </div>
@@ -64,6 +126,8 @@ const Register = () => {
                 type="email"
                 className="text-lg p-3 w-96 border-4"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -73,6 +137,8 @@ const Register = () => {
                 type="password"
                 className="p-3 w-96 border-4"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
@@ -82,6 +148,8 @@ const Register = () => {
                 type="password"
                 className="text-lg p-3 w-96 border-4"
                 placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
             </div>
@@ -98,14 +166,16 @@ const Register = () => {
             {/* Google Login Button */}
             <div className="relative flex justify-center">
               <GoogleLogin
-                onSuccess={handleLoginSuccess}
-                onError={handleLoginFailure}
-                useOneTap
+                onSuccess={handleGoogleLoginSuccess}
+                onError={handleGoogleLoginFailure}
+               // useOneTap
               />
             </div>
 
             <div>
-              <Link to='/login' className="text-xl text-teal-900 space-y-5">Already have an account? Click here</Link>
+              <Link to="/login" className="text-xl text-teal-900 space-y-5">
+                Already have an account? Click here
+              </Link>
             </div>
 
             {/* Cancel Button */}
@@ -121,6 +191,8 @@ const Register = () => {
           </div>
         </GoogleOAuthProvider>
       </form>
+
+      <ToastContainer />
     </>
   );
 };

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { baseUrl, CLIENT_ID } from "../utils/baseUrl"; // Make sure to replace with your API URL
+import { baseUrl, CLIENT_ID } from "../utils/baseUrl"; // Ensure baseUrl is configured
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +41,6 @@ const Login = () => {
     } catch (error) {
       console.error("Error during authentication:", error);
       toast.error("Authentication failed. Please try again.");
-      console.log(error)
     }
   };
 
@@ -56,10 +55,9 @@ const Login = () => {
     }
 
     try {
-      const clientId = CLIENT_ID; // Ensure CLIENT_ID is available in your .env
+      // Send Google token to backend for verification
       const loginResponse = await axios.post(`${baseUrl}/api/auth/google_auth`, {
-        credential,
-        client_id: clientId,
+        tokenId: credential, // Send the tokenId from Google OAuth
       });
 
       const { user, token } = loginResponse.data;
@@ -151,7 +149,7 @@ const Login = () => {
               <GoogleLogin
                 onSuccess={handleGoogleLoginSuccess}
                 onError={handleGoogleLoginFailure} 
-                useOneTap
+                //useOneTap
               />
             </div>
 

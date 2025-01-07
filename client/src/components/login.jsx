@@ -33,14 +33,21 @@ const Login = () => {
       }
 
       const { token, user } = response.data;
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", token);
 
-      toast.success("Authentication successful");
-      navigate("/dashboard");
+      if (response.status === 200) {
+        // Store user and token in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        toast.success("Authentication successful");
+        navigate("/dashboard");
+      } else {
+        throw new Error("Authentication failed");
+      }
     } catch (error) {
       console.error("Error during authentication:", error);
-      toast.error("Authentication failed. Please try again.");
+      // Display detailed error
+      toast.error(error?.response?.data?.message || "Authentication failed. Please try again.");
     }
   };
 
@@ -70,11 +77,12 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error during Google login:", error);
-      toast.error("Google login failed.");
+      // Display detailed error
+      toast.error(error?.response?.data?.message || "Google login failed.");
     }
   };
 
-  // Handle Google login failure (no arguments needed)
+  // Handle Google login failure
   const handleGoogleLoginFailure = () => {
     console.error("Google login failed");
     toast.error("Google login failed.");
@@ -149,7 +157,6 @@ const Login = () => {
               <GoogleLogin
                 onSuccess={handleGoogleLoginSuccess}
                 onError={handleGoogleLoginFailure} 
-                //useOneTap
               />
             </div>
 
@@ -169,7 +176,6 @@ const Login = () => {
                 Cancel
               </button>
             </div>
-
           </div>
         </GoogleOAuthProvider>
       </form>

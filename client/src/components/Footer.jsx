@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { subscribeNewsletter } from "../services/newsletterService";
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await subscribeNewsletter(email);
+      setMessage('Subscription successful! Check your email for confirmation.');
+      setEmail('');
+    } catch (error) {
+      setMessage('An error occurred while subscribing. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="h-auto w-full bg-gradient-to-r from-green-900 via-green-500 to-teal-600 text-white">
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+        
         {/* Newsletter Section */}
         <div className="w-full md:w-1/3">
           <p className="text-xl font-bold mb-4">Subscribe to our Newsletter</p>
-          <form className="flex flex-col sm:flex-row items-center">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center">
             <input
               type="email"
               name="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="px-4 py-2 mb-3 sm:mb-0 rounded-l-md border-2 border-green-500 text-black w-full sm:w-80"
               aria-label="Email address"
@@ -20,10 +42,12 @@ const Footer = () => {
             <button
               type="submit"
               className="bg-green-950 hover:bg-rose-700 text-white font-bold py-2 px-6 rounded-r-md transition-colors duration-300"
+              disabled={loading}
             >
-              Subscribe
+              {loading ? 'Subscribing...' : 'Subscribe'}
             </button>
           </form>
+          {message && <p className="mt-4 text-sm text-green-200">{message}</p>}
         </div>
 
         {/* Links Section - Centered */}

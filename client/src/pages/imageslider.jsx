@@ -38,8 +38,7 @@ function ImageSlider() {
   };
 
   return (
-    <div className="relative w-full h-64 sm:h-96 overflow-hidden rounded-lg">
-      {/* Image container with horizontal stacking of images */}
+    <div className="relative w-screen h-64 sm:h-96 overflow-hidden rounded-lg">
       <div
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}

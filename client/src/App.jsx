@@ -6,7 +6,6 @@ import PrivacyPolicy from "./pages/privacy"
 import TermsConditions from "./components/terms"
 import Register from "./components/register"
 import Login from "./components/login.jsx"
-import Authenticate from "./components/Auth"
 import Tnpsc from "./pages/tnpsc"
 import UPSCPage from "./pages/upsc"
 import  SSCPage from "./pages/ssc"
@@ -27,7 +26,6 @@ export default function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsConditions />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/auth" element={<Authenticate />} />
             <Route path="/login" element={<Login />} />
             <Route path="/rrb" element={<RRB/>}/>
             <Route path="/tnpsc" element={<Tnpsc/>}/>

@@ -1,161 +1,198 @@
-import React, { useState, useEffect } from "react";
-import { FaUser, FaGraduationCap, FaBriefcase, FaBell } from "react-icons/fa";  // Icons
-import { Line } from "react-chartjs-2";  // Chart for data visualization
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-// Dashboard component
-function Dashboard() {
-  const [userProfile, setUserProfile] = useState(null);
-  const [careerProgress, setCareerProgress] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [careerData, setCareerData] = useState(null);
+  const [educationData, setEducationData] = useState(null);
+  const [statistics, setStatistics] = useState({
+    coursesEnrolled: 0,
+    goalsAchieved: 0,
+  });
 
-  // Fetching user data and career progress from backend
+  // Check if user is authenticated by token in localStorage
   useEffect(() => {
-    const fetchUserData = async () => {
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+
+    if (!token || !userData) {
+      navigate('/login');
+    } else {
       try {
-        const userData = await axios.get("/api/user/profile");
-        const careerData = await axios.get("/api/user/career-progress");
-        const userNotifications = await axios.get("/api/user/notifications");
-
-        // Set data into state
-        setUserProfile(userData.data);
-        setCareerProgress(careerData.data);
-        setNotifications(userNotifications.data);
+        if (userData) {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+        }
+        fetchCareerData();
+        fetchEducationData();
+        fetchUserStatistics();
       } catch (error) {
-        console.error("Error fetching user data", error);
-      } finally {
-        setIsLoading(false);
+        console.error('Error parsing user data:', error);
       }
-    };
+    }
+  }, [navigate]);
 
-    fetchUserData();
-  }, []);
+  // Fetch career-related data
+  const fetchCareerData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/user/career', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setCareerData(response.data);
+    } catch (error) {
+      console.error('Error fetching career data:', error);
+    }
+  };
 
-  // If data is still loading, display a loading state
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // Fetch education-related data
+  const fetchEducationData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/user/education', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setEducationData(response.data);
+    } catch (error) {
+      console.error('Error fetching education data:', error);
+    }
+  };
 
-  const data = {
-    labels: careerProgress.map(item => item.month),
-    datasets: [
-      {
-        label: "Skill Development",
-        data: careerProgress.map(item => item.skillLevel),
-        fill: false,
-        borderColor: "rgba(75, 192, 192, 1)",
-        tension: 0.1,
-      },
-    ],
+  // Fetch user statistics (enrolled courses, goals achieved, etc.)
+  const fetchUserStatistics = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/user/statistics', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setStatistics(response.data);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
   };
 
   return (
-    <div className="bg-gray-100 h-screen font-sans">
+    <div className="min-h-screen bg-gray-100 flex">
       {/* Sidebar */}
-      <div className="flex flex-col w-64 bg-blue-900 text-white h-full p-6 shadow-lg">
-        <h2 className="text-3xl font-semibold mb-12 text-center">Career Guide</h2>
-        <nav>
-          <ul>
-            <li className="mb-6 hover:bg-blue-700 p-3 rounded-lg cursor-pointer transition duration-300">
-              <FaUser className="inline-block mr-3" /> Profile
-            </li>
-            <li className="mb-6 hover:bg-blue-700 p-3 rounded-lg cursor-pointer transition duration-300">
-              <FaGraduationCap className="inline-block mr-3" /> Education
-            </li>
-            <li className="mb-6 hover:bg-blue-700 p-3 rounded-lg cursor-pointer transition duration-300">
-              <FaBriefcase className="inline-block mr-3" /> Career
-            </li>
-            <li className="mb-6 hover:bg-blue-700 p-3 rounded-lg cursor-pointer transition duration-300">
-              <FaBell className="inline-block mr-3" /> Notifications
-            </li>
-          </ul>
-        </nav>
+      <div className="w-64 bg-blue-800 text-white p-5">
+        <div className="text-3xl font-bold mb-10">Career Guide</div>
+        <ul>
+          <li className="py-3 px-5 hover:bg-blue-600 rounded">
+            <a href="#">Dashboard</a>
+          </li>
+          <li className="py-3 px-5 hover:bg-blue-600 rounded">
+            <a href="#">Profile</a>
+          </li>
+          <li className="py-3 px-5 hover:bg-blue-600 rounded">
+            <a href="#">Job Opportunities</a>
+          </li>
+          <li className="py-3 px-5 hover:bg-blue-600 rounded">
+            <a href="#">Education Resources</a>
+          </li>
+        </ul>
       </div>
 
-      {/* Main Dashboard Content */}
-      <div className="ml-64 p-8 bg-gray-50">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800">Welcome back, {userProfile.name}!</h1>
-          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-500 transition">
-            Edit Profile
+      {/* Main Content */}
+      <div className="flex-1 p-8">
+        {/* Navbar */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-3xl font-bold text-gray-800">Welcome, {user?.name}</div>
+          <button
+            onClick={handleLogout}
+            className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            Logout
           </button>
         </div>
 
-        {/* Profile Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex items-center">
-            <img
-              src={userProfile.profileImage}
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover mr-6"
-            />
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800">{userProfile.name}</h3>
-              <p className="text-gray-600">{userProfile.email}</p>
+        {/* User Info */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">User Information</h3>
+            {user ? (
+              <div>
+                <p className="text-lg text-gray-600">Name: {user.name}</p>
+                <p className="text-lg text-gray-600">Email: {user.email}</p>
+                <p className="text-lg text-gray-600">Role: {user.role || 'Student'}</p>
+              </div>
+            ) : (
+              <p className="text-gray-500">Loading...</p>
+            )}
+          </div>
+
+          {/* Career Data */}
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Career Guidance</h3>
+            <div className="space-y-4">
+              {careerData ? (
+                <>
+                  <p className="text-lg text-gray-600">Suggested Job Roles: {careerData.jobRoles}</p>
+                  <p className="text-lg text-gray-600">Required Skills: {careerData.skills}</p>
+                  <p className="text-lg text-gray-600">Job Openings: {careerData.openings}</p>
+                </>
+              ) : (
+                <p className="text-gray-500">Loading career data...</p>
+              )}
             </div>
           </div>
-          <div className="flex flex-col justify-center space-y-4">
-            <div>
-              <h4 className="font-semibold text-gray-800">Career Stage</h4>
-              <p className="text-gray-600">{userProfile.careerStage}</p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-800">Education</h4>
-              <p className="text-gray-600">{userProfile.education}</p>
+
+          {/* Education Data */}
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">Education Tracker</h3>
+            <div className="space-y-4">
+              {educationData ? (
+                <>
+                  <p className="text-lg text-gray-600">Current Courses: {educationData.courses}</p>
+                  <p className="text-lg text-gray-600">Completed Courses: {educationData.completed}</p>
+                  <p className="text-lg text-gray-600">Certifications: {educationData.certifications}</p>
+                </>
+              ) : (
+                <p className="text-gray-500">Loading education data...</p>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Career Progress Section with Chart */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Career Progress</h2>
-          <Line data={data} options={{ responsive: true }} />
+        {/* User Statistics */}
+        <div className="bg-white p-6 mt-8 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">User Statistics</h3>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <p className="text-gray-600">Courses Enrolled</p>
+              <span className="text-2xl font-bold text-blue-600">{statistics.coursesEnrolled}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-600">Goals Achieved</p>
+              <span className="text-2xl font-bold text-blue-600">{statistics.goalsAchieved}</span>
+            </div>
+          </div>
         </div>
 
-        {/* Notifications Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Notifications</h2>
-          <ul className="space-y-4">
-            {notifications.map((notification, index) => (
-              <li
-                key={index}
-                className="p-4 bg-gray-50 rounded-lg shadow-md hover:bg-gray-100 transition duration-300"
-              >
-                {notification}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Quick Actions Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:bg-blue-100 transition">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Update Skills</h3>
-            <p className="text-gray-600">Upgrade your skills to stay ahead in your career.</p>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-500 transition">
-              Start Learning
-            </button>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:bg-blue-100 transition">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Apply for Jobs</h3>
-            <p className="text-gray-600">Explore job openings and apply directly through the portal.</p>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-500 transition">
-              Find Jobs
-            </button>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg hover:bg-blue-100 transition">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Track Progress</h3>
-            <p className="text-gray-600">Monitor your career journey with key metrics.</p>
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-500 transition">
-              View Dashboard
-            </button>
+        {/* Recent Notifications */}
+        <div className="bg-white p-6 mt-8 rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-gray-700 mb-4">Recent Notifications</h3>
+          <div className="space-y-4">
+            {/* Example notifications */}
+            <p className="text-lg text-gray-600">New career opportunities available!</p>
+            <p className="text-lg text-gray-600">You have completed a course in Data Science.</p>
+            <p className="text-lg text-gray-600">Your next class starts tomorrow at 10:00 AM.</p>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Dashboard;
